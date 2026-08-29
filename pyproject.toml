@@ -1,0 +1,27 @@
+[project]
+name = "sdmx-authoring-mcp"
+version = "0.1.0"
+description = "MCP server exposing tools to create and update SDMX agencies and codelists in the lab FMR, backed by pysdmx."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "mcp<2",
+    "pysdmx[xml]",
+    "httpx",
+    "pydantic-settings",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+]
+
+# So tests/conftest.py can import the repo-root sibling modules (config.py,
+# fmr_client.py, ...) - pytest's own sys.path insertion stops at tests/.
+[tool.pytest.ini_options]
+pythonpath = ["."]
+
+# Flat sibling modules (server.py, agencies.py, ...), run directly with
+# `uv run server.py` - not an installable package, so don't try to build one.
+[tool.uv]
+package = false
